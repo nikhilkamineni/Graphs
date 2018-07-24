@@ -3,6 +3,7 @@ General drawing methods for graphs using Bokeh.
 """
 
 from random import choice, random
+
 from bokeh.io import output_file, show
 from bokeh.models import (Circle, ColumnDataSource, GraphRenderer, LabelSet,
                           StaticLayoutProvider)
@@ -46,6 +47,14 @@ class BokehGraph:
             graph_layout=self.pos)
         self.plot.renderers.append(graph_renderer)
 
+        v_names = [v for v in self.pos.keys()]
+        v_x = [v[0] for v in self.pos.values()]
+        v_y = [v[1] for v in self.pos.values()]
+        labels_source = ColumnDataSource(data=dict(v_names=v_names, v_x=v_x, v_y=v_y))
+        labels = LabelSet(source=labels_source, x='v_x',
+                          y='v_y', text='v_names')
+        self.plot.add_layout(labels)
+
     def _get_random_colors(self):
         colors = []
 
@@ -85,7 +94,12 @@ class BokehGraph:
 graph = Graph()
 graph.add_vertex('A')
 graph.add_vertex('B')
+graph.add_vertex('C')
+graph.add_vertex('D')
+graph.add_vertex('E')
 graph.add_edge('A', 'B')
+graph.add_edge('A', 'C')
+graph.add_edge('D', 'E')
 
 bg = BokehGraph(graph)
 bg.show()
