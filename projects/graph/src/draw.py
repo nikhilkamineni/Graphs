@@ -102,4 +102,9 @@ graph.add_edge('A', 'C')
 graph.add_edge('D', 'E')
 
 bg = BokehGraph(graph)
-bg.show()
+# bg.show()
+print(bg.pos)
+print(bg.pos.keys())
+names = [name for name in bg.pos.keys()]
+print(names)
+
